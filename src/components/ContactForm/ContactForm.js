@@ -1,5 +1,13 @@
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import {
+  FormikFieldStyled,
+  FormStyled,
+  ErrorMessageStyled,
+  LabelStyled,
+  SubmitButtonStyled,
+} from '../ContactForm/ContactFormStyled';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string().min(1, "Couldn't be empty").required('Required'),
@@ -10,10 +18,9 @@ const contactSchema = Yup.object().shape({
     .min(7, 'Must have 7 numbers'),
 });
 
-export const ContactForm = ({ sameContact }) => {
+export const ContactForm = ({ onClick }) => {
   return (
     <div>
-      <h2>Name</h2>
       <Formik
         initialValues={{
           contacts: [],
@@ -22,25 +29,24 @@ export const ContactForm = ({ sameContact }) => {
         }}
         validationSchema={contactSchema}
         onSubmit={(values, actions) => {
-          // if (sameContact(values)) {
-          //   actions.resetForm();
-          //   return;
-          // }
-          // actions.resetForm();
-          sameContact(values);
+          onClick(values);
+          actions.resetForm();
         }}
       >
-        <Form>
-          <label htmlFor="name">Name</label>
-          <Field id="name" name="name" />
-          <ErrorMessage name="name"></ErrorMessage>
-          <label htmlFor="number">Number</label>
-          <Field id="number" name="number" type="tel" />
-          <ErrorMessage name="number"></ErrorMessage>
-          <button type="submit" onSubmit={sameContact}>
+        <FormStyled>
+          <LabelStyled htmlFor="name">Name</LabelStyled>
+          <FormikFieldStyled id="name" name="name" />
+          <ErrorMessageStyled name="name" component="span"></ErrorMessageStyled>
+          <LabelStyled htmlFor="number">Number</LabelStyled>
+          <FormikFieldStyled id="number" name="number" type="tel" />
+          <ErrorMessageStyled
+            name="number"
+            component="span"
+          ></ErrorMessageStyled>
+          <SubmitButtonStyled type="submit" onSubmit={onClick}>
             Add contact
-          </button>
-        </Form>
+          </SubmitButtonStyled>
+        </FormStyled>
       </Formik>
     </div>
   );

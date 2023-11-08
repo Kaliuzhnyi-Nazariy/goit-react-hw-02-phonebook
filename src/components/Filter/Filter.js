@@ -1,3 +1,10 @@
+import { InputStyled } from './Filter.styled';
+
 export const ContactFilter = ({ onChange }) => {
-  return <input onChange={e => onChange(e.target.value)}></input>;
+  return (
+    <div>
+      <p>Find contacts by name</p>
+      <InputStyled onChange={e => onChange(e.target.value)}></InputStyled>
+    </div>
+  );
 };
